@@ -14,6 +14,8 @@ class input_processor:
                     self.transfer_all(inpt)
                 except:
                     print("ERROR. check your spelling")
+            elif inpt.startswith("transfer multiple"):
+                self.transfer_multiple(inpt)
             elif inpt.startswith("transfer"):
                 try:
                     self.transfer(inpt)
@@ -27,8 +29,8 @@ class input_processor:
 
 
     def heading(self):
-        answer = "num in hand: "# + self.
-        answer += "commands: 'quit' 'transfer [original deck],[new deck]' 'view [deck]' 'transfer all [original deck],[new deck]'\n" \
+        answer = "commands: 'quit' 'transfer [original deck],[deck to transfer to]' 'view [deck]' \n" \
+                 "'transfer all [original deck],[new deck]' 'transfer multiple [original deck],[deck to transfer to],[number of cards]' \n" \
                 "\n"
         answer += self.manager.get_deck_ammounts()
         answer += "\n> "
@@ -74,3 +76,21 @@ class input_processor:
 
         # transfer from old to new
         self.manager.transfer_all(original_deck, new_deck)
+
+    def transfer_multiple(self,inpt):
+        num_commas = 0
+        num_transfers = ""
+        #get number of transfers (everything after the second comma
+        for ch in inpt:
+            if ch == ",":
+                num_commas += 1
+            elif num_commas == 2:
+                num_transfers += ch
+
+        inpt = inpt[9:]
+        inpt = inpt[:len(inpt) - (len(num_transfers) + 1)]
+        num_transfers = int(num_transfers)
+
+        #calls transfer for num_transfers of times
+        for i in range(0,num_transfers):
+            self.transfer(inpt)

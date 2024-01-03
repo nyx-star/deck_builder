@@ -34,6 +34,8 @@ class manager:
 
     def view(self,deck_name):
         """selects random card from displays the card drawn"""
+
+        print("----------------------------------------------------")
         for card in self.decks[deck_name].get_all_cards():
             print(card.get_name())
             print("type: ",card.get_type())
